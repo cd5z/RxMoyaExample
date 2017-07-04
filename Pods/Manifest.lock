@@ -6,18 +6,21 @@ PODS:
   - Moya/RxSwift (8.0.5):
     - Moya/Core
     - RxSwift (~> 3.0)
+  - ObjectMapper (2.2.7)
   - Result (3.2.3)
   - RxSwift (3.5.0)
 
 DEPENDENCIES:
   - Moya/RxSwift
+  - ObjectMapper (~> 2.2)
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
+  ObjectMapper: 65abcfd9a61cf7396cbd14a4fb22fddfcc46577e
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
   RxSwift: 18ee9d78b45edb3b0b7e79916b47a116e6dbc842
 
-PODFILE CHECKSUM: b02e57e2dc0867219ddbeb6318a95a01356f9e21
+PODFILE CHECKSUM: 7244f685d73ddad4efeb0ff3a889d5bba619e153
 
 COCOAPODS: 1.2.1

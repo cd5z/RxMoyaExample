@@ -8,12 +8,17 @@
 
 import UIKit
 import Alamofire
-class ViewController: UIViewController {
+import Moya
+import RxSwift
 
+class ViewController: UIViewController {
+    var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        useAlamofire()
+//        useAlamofire()
+//        userMoya()
+//        mapUser()
     }
     
     
@@ -32,9 +37,62 @@ class ViewController: UIViewController {
             // 在这里处理 请求到的数据
             debugPrint(response)
         }
-        
-        
     }
-
+    
+    // 使用Moya进行网络请求
+    func userMoya() {
+        let provider = MoyaProvider<MyAPI>()
+        provider.request(.login(username: "username", password: "password")) { result in
+            debugPrint(result)
+        }
+    }
+    
+    func userRxMoya() {
+        let rxProvider = RxMoyaProvider<MyAPI>()
+        rxProvider.request(.login(username: "username", password: "password"))
+            .filterSuccessfulStatusCodes()
+            .subscribe(onNext: {
+                debugPrint($0)
+            })
+            .addDisposableTo(disposeBag)
+        
+        rxProvider.request(.login(username: "username", password: "password"))
+            .filter(statusCode: 401)
+            .subscribe(onNext: {
+                debugPrint($0)
+            })
+            .addDisposableTo(disposeBag)
+        
+        
+        rxProvider.request(.login(username: "username", password: "password"))
+            .filter(statusCodes: 200...300)
+            .mapJSON()
+            .subscribe(onNext: { json in
+                debugPrint(json) //已经帮你把response 转成了 JSON，在这里只需要拿到json进行接下来的逻辑就可以了
+            })
+            .addDisposableTo(disposeBag)
+    }
+    
+    // Moya + RxSwift + ObjectMapper
+    func mapUser() {
+        //解析成User对象
+        let rxProvider = RxMoyaProvider<MyAPI>()
+        rxProvider.request(.login(username: "username", password: "password"))
+            .mapResponseToObject(type: User.self)
+            .subscribe(onNext: { user in
+                debugPrint(user)
+            })
+            .addDisposableTo(disposeBag)
+        
+        //解析成User对象数组
+        rxProvider.request(.login(username: "username", password: "password"))
+            .mapResponseToObjectArray(type: User.self)
+            .subscribe(onNext: { users in
+                debugPrint(users)
+            })
+            .addDisposableTo(disposeBag)
+    }
 }
+
+
 

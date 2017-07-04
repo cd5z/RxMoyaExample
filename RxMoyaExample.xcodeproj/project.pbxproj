@@ -16,6 +16,9 @@
 		D63E44D51F0B74E900C0421F /* RxMoyaExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E44D41F0B74E900C0421F /* RxMoyaExampleTests.swift */; };
 		D63E44E01F0B74E900C0421F /* RxMoyaExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E44DF1F0B74E900C0421F /* RxMoyaExampleUITests.swift */; };
 		D63E44EE1F0B7BF000C0421F /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E44ED1F0B7BF000C0421F /* Router.swift */; };
+		D63E44F01F0B84CA00C0421F /* Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E44EF1F0B84CA00C0421F /* Moya.swift */; };
+		D63E44F21F0B950600C0421F /* RxMoyaMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E44F11F0B950600C0421F /* RxMoyaMapper.swift */; };
+		D63E44F41F0BA14400C0421F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E44F31F0BA14400C0421F /* User.swift */; };
 		DFD4EA66EB549E682C5942D9 /* Pods_RxMoyaExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6613AA6DA5A2FBB4C8927603 /* Pods_RxMoyaExample.framework */; };
 		EB1DECA1FD8EA96C3CB3A3CE /* Pods_RxMoyaExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A9F1375C5F610AF4E42ADF /* Pods_RxMoyaExampleUITests.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +63,9 @@
 		D63E44DF1F0B74E900C0421F /* RxMoyaExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMoyaExampleUITests.swift; sourceTree = "<group>"; };
 		D63E44E11F0B74E900C0421F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D63E44ED1F0B7BF000C0421F /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		D63E44EF1F0B84CA00C0421F /* Moya.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moya.swift; sourceTree = "<group>"; };
+		D63E44F11F0B950600C0421F /* RxMoyaMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMoyaMapper.swift; sourceTree = "<group>"; };
+		D63E44F31F0BA14400C0421F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D823788F33C456ECEE29C39C /* Pods-RxMoyaExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMoyaExampleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxMoyaExampleUITests/Pods-RxMoyaExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,7 +147,10 @@
 			children = (
 				D63E44BF1F0B74E900C0421F /* AppDelegate.swift */,
 				D63E44C11F0B74E900C0421F /* ViewController.swift */,
+				D63E44F31F0BA14400C0421F /* User.swift */,
+				D63E44EF1F0B84CA00C0421F /* Moya.swift */,
 				D63E44ED1F0B7BF000C0421F /* Router.swift */,
+				D63E44F11F0B950600C0421F /* RxMoyaMapper.swift */,
 				D63E44C31F0B74E900C0421F /* Main.storyboard */,
 				D63E44C61F0B74E900C0421F /* Assets.xcassets */,
 				D63E44C81F0B74E900C0421F /* LaunchScreen.storyboard */,
@@ -449,9 +458,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D63E44F21F0B950600C0421F /* RxMoyaMapper.swift in Sources */,
+				D63E44F41F0BA14400C0421F /* User.swift in Sources */,
 				D63E44C21F0B74E900C0421F /* ViewController.swift in Sources */,
 				D63E44EE1F0B7BF000C0421F /* Router.swift in Sources */,
 				D63E44C01F0B74E900C0421F /* AppDelegate.swift in Sources */,
+				D63E44F01F0B84CA00C0421F /* Moya.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
