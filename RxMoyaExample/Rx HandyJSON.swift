@@ -1,36 +1,22 @@
 //
-//  RxMoyaMapper.swift
+//  Rx HandyJSON.swift
 //  RxMoyaExample
 //
-//  Created by chendi li on 2017/7/4.
+//  Created by chendi li on 2017/7/5.
 //  Copyright © 2017年 dcubot. All rights reserved.
 //
 
 import Foundation
 import RxSwift
-import ObjectMapper
+import HandyJSON
 import Moya
-enum DCUError : Swift.Error {
-    // 解析失败
-    case ParseJSONError
-    // 网络请求发生错误
-    case RequestFailed
-    // 接收到的返回没有data
-    case NoResponse
-    //服务器返回了一个错误代码
-    case UnexpectedResult(resultCode: Int?, resultMsg: String?)
-}
-
-enum RequestStatus: Int {
-    case requestSuccess = 200
-    case requestError
-}
 
 fileprivate let RESULT_CODE = "code"
 fileprivate let RESULT_MSG = "message"
 fileprivate let RESULT_DATA = "data"
+
 public extension Observable {
-    func mapResponseToObject<T: BaseMappable>(type: T.Type) -> Observable<T> {
+    func mapResponseToObject<T: HandyJSON>(type: T.Type) -> Observable<T> {
         return map { response in
             
             // 得到response
@@ -52,10 +38,16 @@ public extension Observable {
                 if code == RequestStatus.requestSuccess.rawValue {
                     // get data
                     let data =  json[RESULT_DATA]
-                    if let data = data as? [String: Any] {
-                        // 使用 ObjectMapper 解析成对象
-                        let object = Mapper<T>().map(JSON: data)!
-                        return object
+                    if let data = data as? Data {
+                        
+                        let jsonString = String(data: data, encoding: .utf8)
+                        // 使用HandyJSON解析成对象
+                        let object = JSONDeserializer<T>.deserializeFrom(json: jsonString)
+                        if object != nil {
+                            return object!
+                        }else {
+                            throw DCUError.ParseJSONError
+                        }
                     }else {
                         throw DCUError.ParseJSONError
                     }
@@ -69,7 +61,7 @@ public extension Observable {
         }
     }
     
-    func mapResponseToObjectArray<T: BaseMappable>(type: T.Type) -> Observable<[T]> {
+    func mapResponseToObjectArray<T: HandyJSON>(type: T.Type) -> Observable<[T]> {
         return map { response in
             
             // 得到response
@@ -81,7 +73,7 @@ public extension Observable {
             guard ((200...209) ~= response.statusCode) else {
                 throw DCUError.RequestFailed
             }
-
+            
             guard let json = try? JSONSerialization.jsonObject(with: response.data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as! [String: Any]  else {
                 throw DCUError.NoResponse
             }
@@ -89,24 +81,24 @@ public extension Observable {
             // 服务器返回code
             if let code = json[RESULT_CODE] as? Int {
                 if code == RequestStatus.requestSuccess.rawValue {
-                    // 对象数组
-                    var objects = [T]()
-                    guard let objectsArrays = json[RESULT_DATA] as? [Any] else {
+                    guard let objectsArrays = json[RESULT_DATA] as? NSArray else {
                         throw DCUError.ParseJSONError
                     }
-                    for object in objectsArrays {
-                        if let data = object as? [String: Any] {
-                            // 使用 ObjectMapper 解析成对象
-                            let object = Mapper<T>().map(JSON: data)!
-                            // 将对象添加到数组
-                            objects.append(object)
+                    // 使用HandyJSON解析成对象数组
+                    if let objArray = JSONDeserializer<T>.deserializeModelArrayFrom(array: objectsArrays) {
+                        if let objectArray: [T] = objArray as? [T] {
+                            return objectArray
+                        }else {
+                            throw DCUError.ParseJSONError
                         }
+                    }else {
+                        throw DCUError.ParseJSONError
                     }
-                    return objects
 
+                    
                 } else {
                     throw DCUError.UnexpectedResult(resultCode: json[RESULT_CODE] as? Int , resultMsg: json[RESULT_MSG] as? String)
-
+                    
                 }
             } else {
                 throw DCUError.ParseJSONError

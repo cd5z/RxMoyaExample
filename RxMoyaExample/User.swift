@@ -8,6 +8,7 @@
 
 import Foundation
 import ObjectMapper
+import HandyJSON
 class User: Mappable {
     /// This function is where all variable mappings should occur. It is executed by Mapper during the mapping (serialization and deserialization) process.
     func mapping(map: Map) {
@@ -19,5 +20,9 @@ class User: Mappable {
 //        <#code#>
     }
 
+    
+}
+
+struct People: HandyJSON {
     
 }

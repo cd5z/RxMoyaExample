@@ -91,7 +91,28 @@ class ViewController: UIViewController {
                 debugPrint(users)
             })
             .addDisposableTo(disposeBag)
+        
+        
     }
+    
+func handyJSON() {
+    //解析成People对象
+    let rxProvider = RxMoyaProvider<MyAPI>()
+    rxProvider.request(.login(username: "username", password: "password"))
+        .mapResponseToObject(type: People.self)
+        .subscribe(onNext: { _ in
+            
+        })
+        .addDisposableTo(disposeBag)
+    
+    //解析成People对象数组
+    rxProvider.request(.login(username: "username", password: "password"))
+        .mapResponseToObjectArray(type: People.self)
+        .subscribe(onNext: { users in
+            debugPrint(users)
+        })
+        .addDisposableTo(disposeBag)
+}
 }
 
 
